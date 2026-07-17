@@ -1,19 +1,34 @@
-const API = {
-
-    // Verified HDFC Flexi Cap Direct Growth
-    HDFC: "https://api.mfapi.in/mf/118955"
-
-    // Invesco and Bandhan will be added after we verify
-    // their exact MFAPI scheme codes.
-};
-
-async function getFundData(url){
-
-    const response = await fetch(url);
-
-    if(!response.ok){
-        throw new Error("Unable to fetch fund data");
+const FUND_NAMES = [
+    {
+        query: "HDFC Flexi Cap Direct Growth",
+        prefix: "hdfc"
+    },
+    {
+        query: "Invesco India Mid Cap Direct Growth",
+        prefix: "invesco"
+    },
+    {
+        query: "Bandhan Small Cap Direct Growth",
+        prefix: "bandhan"
     }
+];
+
+async function searchFund(query){
+
+    const response = await fetch(
+        "https://api.mfapi.in/mf/search?q=" +
+        encodeURIComponent(query)
+    );
+
+    return await response.json();
+
+}
+
+async function latestNAV(code){
+
+    const response = await fetch(
+        "https://api.mfapi.in/mf/" + code
+    );
 
     return await response.json();
 
@@ -21,17 +36,18 @@ async function getFundData(url){
 
 function calculateChange(latest, previous){
 
-    latest = parseFloat(latest);
-    previous = parseFloat(previous);
+    latest = Number(latest);
+    previous = Number(previous);
 
     const amount = latest - previous;
-    const percent = (amount / previous) * 100;
 
-    return {
+    const percent = (amount/previous)*100;
 
-        amount: amount.toFixed(2),
+    return{
 
-        percent: percent.toFixed(2)
+        amount,
+
+        percent
 
     };
 
