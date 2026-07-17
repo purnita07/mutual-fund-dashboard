@@ -1,37 +1,70 @@
+document.addEventListener("DOMContentLoaded", init);
 
-async function fetchFund(url, navId, dateId){
+async function init() {
 
-const response = await fetch(url);
+    document.getElementById("lastUpdated").innerText = "Loading...";
 
-const data = await response.json();
-
-document.getElementById(navId).innerHTML=data.data[0].nav;
-
-document.getElementById(dateId).innerHTML=data.data[0].date;
+    await loadHDFC();
 
 }
 
-function loadData(){
+async function loadHDFC() {
 
-fetchFund(
-"https://api.mfapi.in/mf/118955",
-"hdfc-nav",
-"hdfc-date"
-);
+    try {
 
-// We'll replace these placeholders with the verified scheme codes.
-fetchFund(
-"https://api.mfapi.in/mf/118955",
-"invesco-nav",
-"invesco-date"
-);
+        const data = await getFundData(API.HDFC);
 
-fetchFund(
-"https://api.mfapi.in/mf/118955",
-"bandhan-nav",
-"bandhan-date"
-);
+        const latest = data.data[0];
+        const previous = data.data[1];
+
+        const change = calculateChange(
+            latest.nav,
+            previous.nav
+        );
+
+        document.getElementById("hdfcNav").innerText =
+            "₹" + latest.nav;
+
+        document.getElementById("hdfcPrev").innerText =
+            "₹" + previous.nav;
+
+        document.getElementById("hdfcDate").innerText =
+            latest.date;
+
+        const amount = parseFloat(change.amount);
+
+        if(amount >= 0){
+
+            document.getElementById("hdfcChange").innerHTML =
+            "🟢 ▲ ₹" +
+            change.amount +
+            " (" +
+            change.percent +
+            "%)";
+
+        }else{
+
+            document.getElementById("hdfcChange").innerHTML =
+            "🔴 ▼ ₹" +
+            Math.abs(amount).toFixed(2) +
+            " (" +
+            change.percent +
+            "%)";
+
+        }
+
+        document.getElementById("lastUpdated").innerText =
+            latest.date;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        document.getElementById("hdfcNav").innerText =
+            "Error";
+
+    }
 
 }
-
-loadData();
