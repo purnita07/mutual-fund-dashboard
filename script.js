@@ -1,3 +1,6 @@
+
+alert("script.js loaded");
+
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
