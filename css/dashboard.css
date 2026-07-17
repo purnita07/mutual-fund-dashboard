@@ -24,3 +24,15 @@
     font-weight:bold;
 
 }
+
+.fund-card{
+    transition:0.25s;
+}
+
+.fund-card:hover{
+    transform:translateY(-3px);
+}
+
+.badge{
+    font-size:0.75rem;
+}
