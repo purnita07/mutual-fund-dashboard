@@ -5,38 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mutual Fund Dashboard</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 
 <body>
 
-<div class="container">
+<!-- Navigation -->
+<nav class="navbar navbar-dark bg-primary shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            📈 Mutual Fund Dashboard
+        </a>
+    </div>
+</nav>
 
-<h1>📈 Mutual Fund Dashboard</h1>
+<div class="container my-4">
 
-<div class="card">
-<h2>HDFC Flexi Cap</h2>
-<p>NAV: <span id="hdfc-nav">Loading...</span></p>
-<p>Date: <span id="hdfc-date">Loading...</span></p>
-</div>
+    <!-- Summary Cards -->
+    <div class="row g-3">
 
-<div class="card">
-<h2>Invesco India Mid Cap</h2>
-<p>NAV: <span id="invesco-nav">Loading...</span></p>
-<p>Date: <span id="invesco-date">Loading...</span></p>
-</div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card">
+                <div class="card-body text-center">
+                    <h6>Portfolio Value</h6>
+                    <h4 id="portfolioValue">₹0</h4>
+                </div>
+            </div>
+        </div>
 
-<div class="card">
-<h2>Bandhan Small Cap</h2>
-<p>NAV: <span id="bandhan-nav">Loading...</span></p>
-<p>Date: <span id="bandhan-date">Loading...</span></p>
-</div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card">
+                <div class="card-body text-center">
+                    <h6>Today's Gain</h6>
+                    <h4 id="todayGain" class="text-success">₹0</h4>
+                </div>
+            </div>
+        </div>
 
-<button onclick="loadData()">Refresh</button>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card">
+                <div class="card-body text-center">
+                    <h6>Funds</h6>
+                    <h4 id="fundCount">0</h4>
+                </div>
+            </div>
+        </div>
 
-</div>
+        <div class="col-6 col-md-3">
+            <div class="card stat-card">
+                <div class="card-body text-center">
+                    <h6>Updated</h6>
+                    <h4 id="lastUpdated">--</h4>
+                </div>
+            </div>
+        </div>
 
-<script src="script.js"></script>
+    </div>
 
-</body>
-</html>
+    <!-- Search Section -->
+    <div class="card mt-4">
+        <div class="card-body">
+
+            <h4>Add Mutual Fund</h4>
+
+            <div class="input-group mt-3">
+                <input
+                    type="text"
+                    id="searchBox"
+                    class="form-control"
+                    placeholder="Search mutual fund...">
+
+                <button
+                    class="btn btn-primary"
+                   
