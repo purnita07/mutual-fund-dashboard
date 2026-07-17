@@ -1,49 +1,42 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Mutual Fund Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            margin: 40px;
-        }
+    <title>Mutual Fund Dashboard</title>
 
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 700px;
-            margin: auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #1565C0;
-        }
-
-        .fund {
-            margin: 12px 0;
-            padding: 10px;
-            background: #eef5ff;
-            border-radius: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+<div class="container">
+
+<h1>📈 Mutual Fund Dashboard</h1>
+
 <div class="card">
-    <h1>My Mutual Fund Dashboard</h1>
-
-    <div class="fund">HDFC Flexi Cap</div>
-    <div class="fund">Invesco India Mid Cap</div>
-    <div class="fund">Bandhan Small Cap</div>
-
-    <p>This dashboard will soon show live NAV and portfolio analytics.</p>
+<h2>HDFC Flexi Cap</h2>
+<p>NAV: <span id="hdfc-nav">Loading...</span></p>
+<p>Date: <span id="hdfc-date">Loading...</span></p>
 </div>
+
+<div class="card">
+<h2>Invesco India Mid Cap</h2>
+<p>NAV: <span id="invesco-nav">Loading...</span></p>
+<p>Date: <span id="invesco-date">Loading...</span></p>
+</div>
+
+<div class="card">
+<h2>Bandhan Small Cap</h2>
+<p>NAV: <span id="bandhan-nav">Loading...</span></p>
+<p>Date: <span id="bandhan-date">Loading...</span></p>
+</div>
+
+<button onclick="loadData()">Refresh</button>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
