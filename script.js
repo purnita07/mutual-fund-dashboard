@@ -1,73 +1,168 @@
-
 alert("script.js loaded");
 
-document.addEventListener("DOMContentLoaded", init);
+
+document.addEventListener(
+    "DOMContentLoaded",
+    init
+);
+
+
 
 async function init() {
 
-    document.getElementById("lastUpdated").innerText = "Loading...";
 
-    await loadHDFC();
+    document.getElementById("lastUpdated").innerText =
+        "Loading...";
+
+
+    await loadFunds();
+
 
 }
 
-async function loadHDFC() {
+
+
+
+async function loadFunds() {
+
 
     try {
 
-        const data = await getFundData(API.HDFC);
 
-        const latest = data.data[0];
-        const previous = data.data[1];
+        for (const fund of FUNDS) {
 
-        const change = calculateChange(
-            latest.nav,
-            previous.nav
-        );
 
-        document.getElementById("hdfcNav").innerText =
-            "₹" + latest.nav;
+            const data =
+                await DataProvider.getFund(fund);
 
-        document.getElementById("hdfcPrev").innerText =
-            "₹" + previous.nav;
 
-        document.getElementById("hdfcDate").innerText =
-            latest.date;
+            updateFundCard(
+                fund.id,
+                data
+            );
 
-        const amount = parseFloat(change.amount);
-
-        if(amount >= 0){
-
-            document.getElementById("hdfcChange").innerHTML =
-            "🟢 ▲ ₹" +
-            change.amount +
-            " (" +
-            change.percent +
-            "%)";
-
-        }else{
-
-            document.getElementById("hdfcChange").innerHTML =
-            "🔴 ▼ ₹" +
-            Math.abs(amount).toFixed(2) +
-            " (" +
-            change.percent +
-            "%)";
 
         }
 
+
         document.getElementById("lastUpdated").innerText =
-            latest.date;
+            new Date().toLocaleDateString("en-IN");
+
 
     }
 
-    catch(error){
 
-        console.log(error);
+    catch(error) {
 
-        document.getElementById("hdfcNav").innerText =
-            "Error";
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        document.getElementById("lastUpdated").innerText =
+            "Error loading data";
+
 
     }
+
+
+}
+
+
+
+
+
+function updateFundCard(id, data) {
+
+
+    const navElement =
+        document.getElementById(
+            id + "Nav"
+        );
+
+
+    const prevElement =
+        document.getElementById(
+            id + "Prev"
+        );
+
+
+    const dateElement =
+        document.getElementById(
+            id + "Date"
+        );
+
+
+    const changeElement =
+        document.getElementById(
+            id + "Change"
+        );
+
+
+
+    if(navElement){
+
+        navElement.innerText =
+            "₹" + data.nav;
+
+    }
+
+
+
+    if(prevElement){
+
+        prevElement.innerText =
+            "₹" + data.previousNav;
+
+    }
+
+
+
+    if(dateElement){
+
+        dateElement.innerText =
+            data.date;
+
+    }
+
+
+
+    if(changeElement){
+
+
+        const change =
+            Number(data.change);
+
+
+
+        if(change >= 0){
+
+
+            changeElement.innerHTML =
+                "🟢 ▲ ₹" +
+                data.change +
+                " (" +
+                data.changePercent +
+                "%)";
+
+
+        }
+        else{
+
+
+            changeElement.innerHTML =
+                "🔴 ▼ ₹" +
+                Math.abs(change).toFixed(2) +
+                " (" +
+                data.changePercent +
+                "%)";
+
+
+        }
+
+    }
+
 
 }
